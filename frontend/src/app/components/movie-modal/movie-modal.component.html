@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+  </head>
+  <body style="background-color: #050a30; min-height: 1000px">
+    <div id="fb-root"></div>
+    <script
+      async
+      defer
+      crossorigin="anonymous"
+      src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v10.0"
+      nonce="1CEGRktm"
+    ></script>
+    <br /><br />
+    <div
+      id="video"
+      class="video_player embed-responsive embed-responsive-16by9"
+    >
+      <youtube-player
+        class="embed-responsive-item"
+        videoId="{{ movie_video['key'] }}"
+        suggestedQuality="highres"
+        [height]="600"
+        [width]="1080"
+      >
+      </youtube-player>
+    </div>
+    <div class="details_content">
+      <span style="font-size: 35px">{{ movie_details["title"] }}</span>
+      <br />
+      <span class="tag">{{ movie_details["tagline"] }}</span>
+      <br />
+      <br />
+      <span style="font-size: 20px; opacity: 0.8">{{
+        movie_details["release_date"]
+      }}</span>
+      <span style="font-size: 20px; opacity: 0.8"
+        >&#x2B51;&nbsp;{{ movie_details["vote_average"] }}</span
+      >
+      <span style="font-size: 20px; opacity: 0.8">{{
+        movie_details["runtime"]
+      }}</span>
+      <br />
+      <span
+        >Genres:&nbsp;<span class="genres">{{
+          movie_details["genres"]
+        }}</span></span
+      >
+      <br />
+      <span>Spoken Languages:&nbsp;</span>
+      <div class="spoken_languages">
+        <span>{{ sl_string }}</span>
+      </div>
+      <br />
+      <br />
+      <span
+        ><button
+          class="btn-primary"
+          style="padding: 8px; border-radius: 6px"
+          (click)="local_storage()"
+        >
+          {{ button_text }}
+        </button></span
+      >
+      <ngb-alert
+        *ngIf="alert_add"
+        class="animate-show animate-hide"
+        id="add_alert_popup"
+        [type]="'success'"
+        (close)="alert_add = false"
+        ><strong>Added to watchlist</strong>
+      </ngb-alert>
+      <ngb-alert
+        *ngIf="alert_remove"
+        class="animate-show animate-hide"
+        id="remove_alert_popup"
+        [type]="'primary'"
+        (close)="alert_remove = false"
+        ><strong>Removed from watchlist</strong></ngb-alert
+      >
+      <br />
+    </div>
+
+    <div class="description_details">
+      <span style="font-size: 20px"
+        >Description<br />
+        <span style="font-size: 1rem; opacity: 0.6">{{
+          movie_details["overview"]
+        }}</span>
+      </span>
+    </div>
+    <br />
+    <div class="share_icons">
+      <span style="font-size: 20px">Share</span>
+      <br />
+
+      <a
+        target="_blank"
+        class="twitter-share-button"
+        style="color: rgb(29 161 242)"
+        href="https://twitter.com/intent/tweet?text=Watch%20{{
+          movie_details['title']
+        }}%20https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3D{{
+          movie_video['key']
+        }}%20%23USC%20%23CSCI571%20%23FightOn"
+        data-size="large"
+        ><i class="fab fa-twitter"></i
+      ></a>
+      &nbsp;
+      <a
+        target="_blank"
+        href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3D{{
+          movie_video['key']
+        }}&amp;src=sdkpreparse"
+        class="fb-xfbml-parse-ignore"
+        style="color: rgb(66, 103, 178)"
+        ><i class="fab fa-facebook-square" aria-hidden="true"></i
+      ></a>
+    </div>
+
+    <div style="padding-bottom: 30px; width: 100%">
+      <span style="font-size: 30px">Full Cast and Crew</span>
+    </div>
+    <div
+      class="pb-2 d-flex flex-row flex-nowrap overflow-auto main-cast-container"
+    >
+      <div
+        class="card card-body p-0 cast-card border-0 mr-lg-4 mr-5"
+        *ngFor="let cast of movie_cast"
+        (click)="openVerticallyCentered(content, cast.id)"
+      >
+        <div>
+          <img src="{{ cast.profile_path }}" class="cast-img p-0 border-0" />
+        </div>
+        <div class="cast-details my-auto">
+          <div class="pt-2">{{ cast.name }}</div>
+          <div>AS</div>
+          <div style="font-weight: 300">{{ cast.character }}</div>
+        </div>
+      </div>
+    </div>
+
+    <ng-template #content let-modal style="height: 600px">
+      <div class="modal-header">
+        <h4 class="modal-title">{{ cast_name }}</h4>
+        <button
+          type="button"
+          class="close"
+          aria-label="Close"
+          (click)="modal.dismiss('Cross click')"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="cast_image">
+          <img
+            src="{{ cast_profile_path }}"
+            style="height: 200px; width: 150px; float: left"
+          />
+        </div>
+        <div class="cast_content">
+          <div class="content_min" style="margin-left: 170px">
+            <span *ngIf="display_cast_birthday"
+              >Birth:&nbsp;{{ cast_birthday }}<br
+            /></span>
+            <span *ngIf="display_cast_deathday"
+              >Deathday:&nbsp;{{ cast_deathday }}<br
+            /></span>
+            <span *ngIf="display_cast_place_of_birth"
+              >Birth&nbsp;Place:&nbsp;{{ cast_place_of_birth }}<br
+            /></span>
+            <span *ngIf="display_cast_gender"
+              >Gender:&nbsp;{{ cast_gender }}<br
+            /></span>
+            <span *ngIf="display_cast_homepage"
+              >Website:&nbsp;{{ cast_homepage }}<br
+            /></span>
+            <span *ngIf="display_cast_known_for_department"
+              >Known&nbsp;for:&nbsp;{{ cast_known_for_department }}<br
+            /></span>
+            <span *ngIf="display_cast_also_known_as"
+              >Also&nbsp;Known&nbsp;as:&nbsp;{{ cast_also_known_as }}</span
+            >
+            <br />
+            <span>
+              <a
+                *ngIf="display_cast_imdb_id"
+                target="_blank"
+                href="{{ cast_imdb_id }}"
+                ngbTooltip="Open IMDB"
+                ><i
+                  class="fab fa-imdb yellow-color"
+                  style="color: rgb(201, 176, 64)"
+                ></i
+                >&nbsp;&nbsp;</a
+              >
+              <a
+                *ngIf="display_cast_instagram_id"
+                target="_blank"
+                href="{{ cast_instagram_id }}"
+                ngbTooltip="Open Instagram"
+                ><i
+                  class="fab fa-instagram"
+                  style="color: rgb(199, 67, 106)"
+                ></i
+                >&nbsp;&nbsp;</a
+              >
+              <a
+                *ngIf="display_cast_facebook_id"
+                target="_blank"
+                href="{{ cast_facebook_id }}"
+                ngbTooltip="Open Facebook"
+                ><i class="fab fa-facebook-f" style="color: #3b5998"></i
+                >&nbsp;&nbsp;</a
+              >
+              <a
+                *ngIf="display_cast_twitter_id"
+                target="_blank"
+                href="{{ cast_twitter_id }}"
+                ngbTooltip="Open Twitter"
+                ><i class="fab fa-twitter" style="color: #00aced"></i
+              ></a>
+            </span>
+          </div>
+          <br /><br /><br /><br />
+          <div class="bio">
+            <div *ngIf="display_cast_biography" style="float: bottom">
+              <span style="font-size: 25px; font-weight: 500">Biography</span>
+              <br />
+              <span>{{ cast_biography }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+
+    <div class="reviews">
+      <div class="review_title">
+        <span style="font-size: 35px"
+          >Reviews &nbsp;{{ this.movie_reviews_length }}</span
+        >
+      </div>
+      <div>
+        <div
+          class="card-body"
+          *ngFor="let review of movie_reviews"
+          style="
+            color: black;
+            background-color: white;
+            border-radius: 6px;
+            margin-top: 20px;
+          "
+        >
+          <div class="image_div">
+            <img
+              src="{{ review.avatar_path }}"
+              style="
+                height: 50px;
+                float: left;
+                margin: 25px;
+                border-radius: 30px;
+              "
+            />
+          </div>
+          <div class="content_div">
+            <div class="author_review">
+              <span
+                >A review created by&nbsp;<span>{{ review.author }}</span></span
+              >
+            </div>
+            <br />
+            <br />
+            <div class="author_details">
+              <span
+                >Written by&nbsp;<span>{{ review.author }},on </span></span
+              >
+              <br />
+            </div>
+            <br />
+            <div class="review_content">
+              <span
+                style="
+                  -webkit-line-clamp: 3;
+                  -webkit-box-orient: vertical;
+                  overflow: hidden;
+                  display: -webkit-box;
+                "
+                >{{ review.content }}</span
+              >
+              <br />
+              <br />
+              <a
+                target="_blank"
+                href="https://www.themoviedb.org/review/{{ review.id }}"
+                >Read the rest</a
+              >
+            </div>
+            <br />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="display_recommended_movies" class="main-card-carousel reviews">
+      <span style="font-size: 30px; font-weight: 600">Recommended Movies</span>
+      <ngb-carousel #carousel [interval]="0" style="outline: none">
+        <ng-template
+          ngbSlide
+          *ngFor="let group of recommended_movies; index as i"
+        >
+          <div class="row">
+            <div *ngFor="let img of group" class="slideshow-row col px-2 mx-1">
+              <a (click)="navigate_movie(img.id)">
+                <div
+                  class="img-fluid-container"
+                  id="rm-carousel-image-{{ img.id }}"
+                  (mouseover)="mouseOverCarouselItem($event, img.id, 'rm')"
+                  (mouseout)="mouseNotOverCarouselItem($event, img.id, 'rm')"
+                >
+                  <img class="slideshow-image" [src]="img.poster_path" />
+                  <div
+                    id="rm-carousel-image-caption-{{ img.id }}"
+                    class="carousel-caption"
+                  >
+                    <div class="carousel-image-caption-text">
+                      {{ img.title }}
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+        </ng-template>
+      </ngb-carousel>
+    </div>
+    <br />
+    <div *ngIf="display_similar_movies" class="main-card-carousel">
+      <span style="font-size: 30px; font-weight: 600">Similar Movies</span>
+      <ngb-carousel #carousel [interval]="0" style="outline: none">
+        <ng-template ngbSlide *ngFor="let group of similar_movies; index as i">
+          <div class="row">
+            <div *ngFor="let img of group" class="slideshow-row col px-2 mx-1">
+              <a (click)="navigate_movie(img.id)">
+                <div
+                  class="img-fluid-container"
+                  id="sm-carousel-image-{{ img.id }}"
+                  (mouseover)="mouseOverCarouselItem($event, img.id, 'sm')"
+                  (mouseout)="mouseNotOverCarouselItem($event, img.id, 'sm')"
+                >
+                  <img class="slideshow-image" [src]="img.poster_path" />
+                  <div
+                    id="sm-carousel-image-caption-{{ img.id }}"
+                    class="carousel-caption"
+                  >
+                    <div class="carousel-image-caption-text">
+                      {{ img.title }}
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+        </ng-template>
+      </ngb-carousel>
+    </div>
+  </body>
+</html>

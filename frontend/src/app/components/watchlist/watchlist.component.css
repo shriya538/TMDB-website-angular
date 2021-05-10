@@ -1,0 +1,21 @@
+body {
+  background-color: #050a30;
+  padding-left: 7.5%;
+  padding-right: 7.5%;
+}
+.img_currently_watching {
+  width: 100%;
+  max-width: 200px;
+  padding: 20px;
+}
+
+.example-card {
+  display: inline-block;
+}
+
+.my-watchlist-title {
+  font-size: 30px;
+  color: white;
+  font-weight: 600;
+  padding: 20px;
+}

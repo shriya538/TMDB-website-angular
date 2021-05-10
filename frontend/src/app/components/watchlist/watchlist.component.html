@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+  <head>
+    <title></title>
+  </head>
+  <body style="min-height: 87vh; position: relative">
+    <div id="my-watch-list-container">
+      <div *ngIf="no_items_found">
+        <p
+          style="
+            color: white;
+            font-size: 30px;
+            font-weight: 600;
+            padding: 20px;
+            text-align: center;
+          "
+        >
+          No items found in watchlist.
+        </p>
+      </div>
+      <!-- <div *ngIf="display_watchlist">
+        <p class="my-watchlist-title">My Watchlist</p>
+        <div id="watchlist-container"> -->
+      <!-- <div *ngFor="let element of currently_watching; let key = index"> -->
+      <!-- <div>
+            <div *ngIf="element.is_movie" class="example-card">
+              <a (click)="navigate_movie(element.key)">
+                <img class="img_continue_watching" [src]="element.poster_path" />
+              </a>
+            </div>
+            <div *ngIf="element.is_tv" class="example-card">
+              <a (click)="navigate_tv(element.key)">
+                <img class="img_continue_watching" [src]="element.poster_path" />
+              </a>
+            </div>
+          </div> -->
+      <!-- </div>
+      </div> -->
+    </div>
+  </body>
+</html>

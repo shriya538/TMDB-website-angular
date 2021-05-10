@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>USC Films</title>
+  </head>
+  <body class="homepage_body">
+    <ngb-carousel id="banner" [interval]="3000" style="outline: none">
+      <ng-template ngbSlide *ngFor="let element of currently_playing_movies">
+        <a
+          id="banner-{{ element.id }}"
+          (click)="navigate_movie(element.id)"
+          (mouseover)="mouseOverBanner($event, element.id)"
+          (mouseout)="mouseNotOverBanner($event, element.id)"
+        >
+          <div class="wrapper banner-image-wrapper" style="overflow: hidden">
+            <img
+              id="banner-image-{{ element.id }}"
+              class="banner-image"
+              [src]="element.backdrop_path"
+              alt="Movie Banner"
+            />
+          </div>
+          <div id="banner-title-{{ element.id }}" class="carousel-caption">
+            <div class="banner-caption-text">{{ element.title }}</div>
+          </div>
+        </a>
+      </ng-template>
+    </ngb-carousel>
+
+    <div
+      class="main-card-carousel"
+      style="background-color: #050a30; color: white"
+      *ngIf="display_my_list"
+    >
+      <span style="font-size: 30px; font-weight: 600">Currently Watching</span>
+
+      <ngb-carousel #carousel [interval]="0" style="outline: none">
+        <ng-template ngbSlide *ngFor="let element of my_list">
+          <div class="row">
+            <div *ngFor="let e of element" class="slideshow-row col px-2 mx-1">
+              <a (click)="navigate_tv_movie(e.is_movie, e.key)">
+                <div
+                  class="img-fluid-container"
+                  id="cw-carousel-image-{{ e.key }}"
+                  (mouseover)="mouseOverCarouselItem($event, e.key, 'cw')"
+                  (mouseout)="mouseNotOverCarouselItem($event, e.key, 'cw')"
+                >
+                  <img class="slideshow-image" [src]="e.poster_path" />
+                  <div
+                    id="cw-carousel-image-caption-{{ e.key }}"
+                    class="carousel-caption"
+                  >
+                    <div class="carousel-image-caption-text">
+                      {{ e.title }}
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+        </ng-template>
+      </ngb-carousel>
+    </div>
+
+    <div
+      class="main-card-carousel"
+      style="background-color: #050a30; color: white"
+    >
+      <span style="font-size: 30px; font-weight: 600">Popular Movies</span>
+      <br />
+
+      <ngb-carousel #carousel [interval]="0" style="outline: none">
+        <ng-template ngbSlide *ngFor="let group of popular_movies; index as i">
+          <div class="row">
+            <div *ngFor="let img of group" class="slideshow-row col px-2 mx-1">
+              <a (click)="navigate_movie(img.id)">
+                <div
+                  class="img-fluid-container"
+                  id="pm-carousel-image-{{ img.id }}"
+                  (mouseover)="mouseOverCarouselItem($event, img.id, 'pm')"
+                  (mouseout)="mouseNotOverCarouselItem($event, img.id, 'pm')"
+                >
+                  <img class="slideshow-image" [src]="img.poster_path" />
+                  <div
+                    id="pm-carousel-image-caption-{{ img.id }}"
+                    class="carousel-caption"
+                  >
+                    <div class="carousel-image-caption-text">
+                      {{ img.title }}
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+        </ng-template>
+      </ngb-carousel>
+    </div>
+
+    <div
+      class="main-card-carousel"
+      style="background-color: #050a30; color: white"
+    >
+      <span style="font-size: 30px; font-weight: 600">Top Rated Movies</span>
+      <br />
+      <ngb-carousel #carousel [interval]="0" style="outline: none">
+        <ng-template
+          ngbSlide
+          *ngFor="let group of top_rated_movies; index as i"
+        >
+          <div class="row">
+            <div *ngFor="let img of group" class="slideshow-row col px-2 mx-1">
+              <a (click)="navigate_movie(img.id)">
+                <div
+                  class="img-fluid-container"
+                  id="trm-carousel-image-{{ img.id }}"
+                  (mouseover)="mouseOverCarouselItem($event, img.id, 'trm')"
+                  (mouseout)="mouseNotOverCarouselItem($event, img.id, 'trm')"
+                >
+                  <img class="slideshow-image" [src]="img.poster_path" />
+                  <div
+                    id="trm-carousel-image-caption-{{ img.id }}"
+                    class="carousel-caption"
+                  >
+                    <div class="carousel-image-caption-text">
+                      {{ img.title }}
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+        </ng-template>
+      </ngb-carousel>
+    </div>
+
+    <div
+      class="main-card-carousel"
+      style="background-color: #050a30; color: white"
+    >
+      <span style="font-size: 30px; font-weight: 600">Trending Movies</span>
+
+      <ngb-carousel #carousel [interval]="0" style="outline: none">
+        <ng-template ngbSlide *ngFor="let group of trending_movies; index as i">
+          <div class="row">
+            <div *ngFor="let img of group" class="slideshow-row col px-2 mx-1">
+              <a (click)="navigate_movie(img.id)">
+                <div
+                  class="img-fluid-container"
+                  id="tm-carousel-image-{{ img.id }}"
+                  (mouseover)="mouseOverCarouselItem($event, img.id, 'tm')"
+                  (mouseout)="mouseNotOverCarouselItem($event, img.id, 'tm')"
+                >
+                  <img class="slideshow-image" [src]="img.poster_path" />
+                  <div
+                    id="tm-carousel-image-caption-{{ img.id }}"
+                    class="carousel-caption"
+                  >
+                    <div class="carousel-image-caption-text">
+                      {{ img.title }}
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+        </ng-template>
+      </ngb-carousel>
+    </div>
+
+    <div
+      class="main-card-carousel"
+      style="background-color: #050a30; color: white"
+    >
+      <span style="font-size: 30px; font-weight: 600">Popular TV Shows</span>
+      <br />
+      <ngb-carousel #carousel [interval]="0" style="outline: none">
+        <ng-template
+          ngbSlide
+          *ngFor="let group of popular_tv_shows; index as i"
+        >
+          <div class="row">
+            <div *ngFor="let img of group" class="slideshow-row col px-2 mx-1">
+              <a (click)="navigate_tv(img.id)">
+                <div
+                  class="img-fluid-container"
+                  id="ptv-carousel-image-{{ img.id }}"
+                  (mouseover)="mouseOverCarouselItem($event, img.id, 'ptv')"
+                  (mouseout)="mouseNotOverCarouselItem($event, img.id, 'ptv')"
+                >
+                  <img class="slideshow-image" [src]="img.poster_path" />
+                  <div
+                    id="ptv-carousel-image-caption-{{ img.id }}"
+                    class="carousel-caption"
+                  >
+                    <div class="carousel-image-caption-text">
+                      {{ img.name }}
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+        </ng-template>
+      </ngb-carousel>
+    </div>
+
+    <div
+      class="main-card-carousel"
+      style="background-color: #050a30; color: white"
+    >
+      <span style="font-size: 30px; font-weight: 600">Top Rated TV Shows</span>
+      <br />
+      <ngb-carousel #carousel [interval]="0" style="outline: none">
+        <ng-template
+          ngbSlide
+          *ngFor="let group of top_rated_tv_shows; index as i"
+        >
+          <div class="row">
+            <div *ngFor="let img of group" class="slideshow-row col px-2 mx-1">
+              <a (click)="navigate_tv(img.id)">
+                <div
+                  class="img-fluid-container"
+                  id="trtv-carousel-image-{{ img.id }}"
+                  (mouseover)="mouseOverCarouselItem($event, img.id, 'trtv')"
+                  (mouseout)="mouseNotOverCarouselItem($event, img.id, 'trtv')"
+                >
+                  <img class="slideshow-image" [src]="img.poster_path" />
+                  <div
+                    id="trtv-carousel-image-caption-{{ img.id }}"
+                    class="carousel-caption"
+                  >
+                    <div class="carousel-image-caption-text">
+                      {{ img.name }}
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+        </ng-template>
+      </ngb-carousel>
+    </div>
+
+    <div
+      class="main-card-carousel"
+      style="background-color: #050a30; color: white"
+    >
+      <span style="font-size: 30px; font-weight: 600">Trending TV Shows</span>
+      <br />
+
+      <ngb-carousel #carousel [interval]="0" style="outline: none">
+        <ng-template
+          ngbSlide
+          *ngFor="let group of trending_tv_shows; index as i"
+        >
+          <div class="row">
+            <div *ngFor="let img of group" class="slideshow-row col px-2 mx-1">
+              <a (click)="navigate_tv(img.id)">
+                <div
+                  class="img-fluid-container"
+                  id="ttv-carousel-image-{{ img.id }}"
+                  (mouseover)="mouseOverCarouselItem($event, img.id, 'ttv')"
+                  (mouseout)="mouseNotOverCarouselItem($event, img.id, 'ttv')"
+                >
+                  <img class="slideshow-image" [src]="img.poster_path" />
+                  <div
+                    id="ttv-carousel-image-caption-{{ img.id }}"
+                    class="carousel-caption"
+                  >
+                    <div class="carousel-image-caption-text">
+                      {{ img.name }}
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+        </ng-template>
+      </ngb-carousel>
+    </div>
+  </body>
+</html>
+
+<!--Continue watching and slideshow-->
+<!--<div class="main-card-carousel m-4">
+  <span style="font-size: 30px;">Continue Watching</span>
+  <perfect-scrollbar style="" [config]="{useBothWheelAxes: true, suppressScrollY: false}">
+  <ngb-carousel #carousel [interval]="0" style="outline: none;">
+    <ng-template ngbSlide *ngFor="let group of movie_cast; index as i">
+      <div class="row">
+        <div ngbSlide *ngFor="let img of group" class="col px-2 mx-1">
+          <div class="card card-body p-0 flex-grow" >
+            <img class="img-fluid" [src]="img.profile_path">
+
+            <span style="color: black;align-content: center;">{{img['name']}}</span>
+            <span style="color: black">As</span>
+            <span style="color: black">{{img['character']}}</span>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </ngb-carousel>
+  </perfect-scrollbar>
+</div>-->

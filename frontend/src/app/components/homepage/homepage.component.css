@@ -1,0 +1,101 @@
+/*.carousel-item {
+    height: 350px;
+}
+
+.carousel-indicators li {
+    width: 10px;
+    height: 10px;
+    border-radius: 100%;
+}
+.carousel-indicators {
+    bottom: -50px;
+}*/
+/*need to figure out how to apply css*/
+
+/* .carousel-indicator li{
+   position: relative !important;
+   bottom: -50px !important;
+ }*/
+
+div.row {
+  margin-top: 25px;
+  height: 375px;
+  width: fit-content;
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
+.slideshow-image {
+  width: 100%;
+  max-width: 200px;
+  height: 300px;
+  object-fit: contain;
+}
+
+.slideshow-image:hover {
+  cursor: pointer;
+}
+
+.img-fluid-container {
+  width: fit-content;
+  height: fit-content;
+  display: inline-block;
+}
+
+.main-card-carousel ngb-carousel {
+  margin-left: -100px;
+  margin-right: -100px;
+  overflow-x: hidden !important;
+}
+
+.homepage_body {
+  background-color: #050a30;
+  color: white padding;
+  padding-left: 7.5%;
+  padding-right: 7.5%;
+  min-height: 80vh;
+}
+
+.banner-image {
+  height: 500px;
+  width: inherit;
+}
+
+.banner-image-wrapper {
+  height: 500px;
+  width: 100%;
+}
+
+.carousel-caption {
+  display: none;
+  bottom: 0;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  background-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0),
+    rgba(0, 0, 0, 1)
+  );
+  left: 0;
+}
+
+.banner-caption-text {
+  position: absolute;
+  left: 5%;
+  bottom: 10%;
+  width: fit-content;
+  height: fit-content;
+  font-size: large;
+}
+
+.carousel-image-caption-text {
+  position: absolute;
+  bottom: 5%;
+  padding-left: 10%;
+  width: 100%;
+  height: fit-content;
+  font-size: medium;
+  text-align: left;
+}
